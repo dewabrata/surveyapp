@@ -3,6 +3,7 @@ import * as eva from '@eva-design/eva';
 import { ApplicationProvider } from '@ui-kitten/components';
 import HomeScreen from './Screen/HomeScreen/HomeScreen';
 import InputScreen from './Screen/InputScreen/InputScreen';
+import UpdateScreen from './Screen/UpdateScreen/UpdateScreen';
 
 const App = () => {
 
@@ -12,7 +13,7 @@ const App = () => {
 
   return (
     <ApplicationProvider {...eva} theme={eva.light}>
-    <InputScreen />
+    <UpdateScreen />
     </ApplicationProvider>
   )
 }
