@@ -1169,6 +1169,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/ml-vision/-/ml-vision-7.4.13.tgz#304de0ccb1b0e2a58c0271ef7abfe84a00fbca67"
   integrity sha512-d2MbgXFDEMOJZGxkdICyL951le6NJirIjviYvVYAU6KqGRN46PmH2BqTA8MH9iUCDkrD/zMIRmbPJPpDVkDCeg==
 
+"@react-native-firebase/storage@^10.8.1":
+  version "10.8.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-10.8.1.tgz#16f833995c4f3315752de354e5e9e24674bd5a67"
+  integrity sha512-1Db87rh7DekGxynnbVo0jU+/LokJ8G0v5NWbVYyU0C2LOFjjuaODkQG4hYQKD/Pr85n5w0kD8P9k9HRRWbH9eQ==
+
 "@sinonjs/commons@^1.7.0":
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/@sinonjs/commons/-/commons-1.8.2.tgz#858f5c4b48d80778fde4b9d541f27edc0d56488b"
@@ -1374,6 +1379,13 @@
     fecha "3.0.3"
     hoist-non-react-statics "^3.2.1"
     lodash.merge "^4.6.1"
+
+"@ui-kitten/eva-icons@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@ui-kitten/eva-icons/-/eva-icons-5.0.0.tgz#b8ab2fea3dafcb9f914534ef66a5dfd1badfeb1d"
+  integrity sha512-Iae3FtnNQKC0PnRnFDUpaCFhvUFaN+NkRxag6LstEjNqAMcVnsQbPTqPQFx18j920Z5S7f5/oZqaJ8NxZtPaNA==
+  dependencies:
+    react-native-eva-icons "^1.3.1"
 
 abab@^2.0.3:
   version "2.0.5"
@@ -5683,6 +5695,11 @@ react-native-camera@^3.42.3:
   integrity sha512-/MGDNlcagx/f7HPI0I+xT4N59UA0SE2c/D6BLNtqHzn1YHZj0QFVDbSzMTd3jWKzvHtGfet8rg6A2cZxY+ZvJw==
   dependencies:
     prop-types "^15.6.2"
+
+react-native-eva-icons@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/react-native-eva-icons/-/react-native-eva-icons-1.3.1.tgz#1e6e019b0fd3cb1669db50bd6bbdaa6d89327593"
+  integrity sha512-emd/aYXuOacuDVTx0SJoLi+xsOdCNdljQB3PTNCM9AQ3m/smG0X1TN0+ihelPO7MqoHzaH0h6lbANtwxGUy8Fw==
 
 react-native-svg@^12.1.0:
   version "12.1.0"

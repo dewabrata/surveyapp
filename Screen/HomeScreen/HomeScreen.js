@@ -1,7 +1,7 @@
 import React, {useEffect,useState}from 'react'
-import {View,FlatList, StyleSheet } from 'react-native'
-import { Layout, Text } from '@ui-kitten/components';
+import { StyleSheet } from 'react-native'
 import firestore from '@react-native-firebase/firestore';
+import {Avatar, Button, Icon, List, ListItem } from '@ui-kitten/components';
 
 const HomeScreen = () => {
 
@@ -9,7 +9,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     const dataa = firestore()
-      .collection('users')
+      .collection('Users')
       .onSnapshot(querySnapshot => {
         const users = [];
   
@@ -26,19 +26,45 @@ const HomeScreen = () => {
   }, [])
 
 
-  return (
-    <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      {/* <Text category='h1'>HOME</Text> */}
-      <FlatList data = {users} renderItem={({item})=>(
-         <View style={{ height: 100, flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-         <Text>User email: {item.email}</Text>
-         <Text>User Name: {item.name}</Text>
-         <Text>User Alamat : {item.address}</Text>
-       </View>
-      )}/>
-    </Layout>
+  const renderItemAccessory = (props) => (
+    <Button size='tiny'>Update</Button>
+  );
+
+  const renderItemIcon = (props,gambar) => {
+  console.log(props)
+  return(
+    <Avatar style={styles.avatar} size='giant' source={{uri:gambar}}  />
   )
-}
+  }
+
+
+  const renderItem = ({ item, index }) => {
+ 
+    console.log(item)
+    return (
+    <ListItem
+      title={`${item.name} ${index + 1}`}
+      description={`${item.gps} ${index + 1}`}
+      accessoryLeft={(props)=>renderItemIcon(props,item.gambar)}
+      accessoryRight={renderItemAccessory}
+      gambar = {item.gambar}
+    />
+    )
+  }
+    
+    
+  
+  ;
+  
+  
+  return (
+    <List
+      style={styles.container}
+      data={users}
+      renderItem={renderItem}
+    />
+  );
+};
 
 export default HomeScreen
 

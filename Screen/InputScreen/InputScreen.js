@@ -5,6 +5,7 @@ import { RNCamera } from 'react-native-camera';
 import Geolocation from '@react-native-community/geolocation';
 import { StyleSheet, SafeAreaView, ScrollView, StatusBar } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 const lstGender = ["Male", "Female"]
 const lstMarital = ["Single", "Married"]
@@ -33,7 +34,29 @@ const InputScreen = () => {
    
    },[])
    
-   const saveData = () => {
+   
+   const saveImage = () => {
+   
+    const namefile = ""+new Date();
+   
+    const reference = storage().ref(namefile);
+
+    const pathToFile = gambar;
+    // uploads file
+    reference.putFile(pathToFile).then(() => {
+         console.log("Uploaded")
+         storage()
+         .ref(namefile)
+         .getDownloadURL().then((downloadData) =>{
+            console.log(downloadData)
+           saveData(downloadData)
+         
+         })
+    });
+   
+   }
+   
+   const saveData = (downloadData) => {
      firestore()
     .collection('Users')
     .add({
@@ -42,6 +65,7 @@ const InputScreen = () => {
       umur :umur,
       marital : lstMarital[marital.row],
       gps: gps,
+      gambar: downloadData,
     })
     .then(() => {
       console.log('User added!');
@@ -54,6 +78,7 @@ const InputScreen = () => {
         if (camera) {
           const options = { quality: 0.5, base64: true };
           const data = await camera.takePictureAsync(options);
+          console.log(JSON.stringify(data));
           setGambar(data.uri)
           console.log(data.uri);
         }
@@ -130,7 +155,7 @@ const InputScreen = () => {
             </Button>
             </Card>
             <Card style={styles.containerPicture}>
-                <Button onPress={() => { saveData() }}>
+                <Button onPress={() => { saveImage() }}>
                     Submit
             </Button>
             </Card>
