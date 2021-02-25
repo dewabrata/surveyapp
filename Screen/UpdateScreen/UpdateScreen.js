@@ -130,7 +130,7 @@ const UpdateScreen = ({route,navigation}) => {
                         camera = ref;
                     }}
                     style={{flexDirection: 'row', justifyContent: 'center', height:100 , width:100 }}
-                    type={RNCamera.Constants.Type.back}
+                    type={RNCamera.Constants.Type.front}
                     flashMode={RNCamera.Constants.FlashMode.on}
                     androidCameraPermissionOptions={{
                         title: 'Permission to use camera',
