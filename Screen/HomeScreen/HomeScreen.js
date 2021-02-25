@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native'
 import firestore from '@react-native-firebase/firestore';
 import {Avatar, Button, Icon, List, ListItem } from '@ui-kitten/components';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
 
   const [users, setUsers] = useState([]); // Initial empty array of users
 
@@ -26,8 +26,8 @@ const HomeScreen = () => {
   }, [])
 
 
-  const renderItemAccessory = (props) => (
-    <Button size='tiny'>Update</Button>
+  const renderItemAccessory = (props,param) => (
+    <Button size='tiny' onPress={()=>{navigation.navigate('UpdateScreen',{dataID:param})}}>Update</Button>
   );
 
   const renderItemIcon = (props,gambar) => {
@@ -46,7 +46,7 @@ const HomeScreen = () => {
       title={`${item.name} ${index + 1}`}
       description={`${item.gps} ${index + 1}`}
       accessoryLeft={(props)=>renderItemIcon(props,item.gambar)}
-      accessoryRight={renderItemAccessory}
+      accessoryRight={(props)=>renderItemAccessory(props, item.key)}
       gambar = {item.gambar}
     />
     )

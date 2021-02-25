@@ -6,7 +6,10 @@ import UpdateScreen from './Screen/UpdateScreen/UpdateScreen';
 
 import { ApplicationProvider, IconRegistry, Layout, Text } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
+const Stack = createStackNavigator();
 
 const App = () => {
 
@@ -18,7 +21,12 @@ const App = () => {
     <>
     <IconRegistry icons={EvaIconsPack} />
     <ApplicationProvider {...eva} theme={eva.light}>
-    <HomeScreen />
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="MainPage">
+          <Stack.Screen name="MainPage" component={HomeScreen}/>
+          <Stack.Screen name="UpdateScreen" component={UpdateScreen}/>
+        </Stack.Navigator>
+      </NavigationContainer>
     </ApplicationProvider>
     </>
   )

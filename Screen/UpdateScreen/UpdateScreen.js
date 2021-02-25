@@ -9,7 +9,8 @@ import firestore from '@react-native-firebase/firestore';
 const lstGender = ["Male", "Female"]
 const lstMarital = ["Single", "Married"]
 let camera = null;
-const InputScreen = () => {
+const UpdateScreen = ({route,navigation}) => {
+    const {dataID}=route.params;
     const [nama, setNama] = useState("")
     const [gender, setGender] = useState(0)
     const [umur, setUmur] = useState("")
@@ -24,6 +25,7 @@ const InputScreen = () => {
     
    useEffect(() =>{
    
+    console.log(dataID)
     Geolocation.getCurrentPosition(info => {
     
     setGps(info.coords.longitude +";"+info.coords.latitude)
@@ -33,10 +35,11 @@ const InputScreen = () => {
    
    },[])
    
-   const saveData = () => {
+   const updateData = () => {
      firestore()
     .collection('Users')
-    .add({
+    .doc(dataID)
+    .update({
       name: nama,
       gender: lstGender[gender.row],
       umur :umur,
@@ -44,9 +47,9 @@ const InputScreen = () => {
       gps: gps,
     })
     .then(() => {
-      console.log('User added!');
+      console.log('User Updated!');
     });
-   
+    navigation.goBack();
    }
 
    const takePicture = async () => {
@@ -130,7 +133,7 @@ const InputScreen = () => {
             </Button>
             </Card>
             <Card style={styles.containerPicture}>
-                <Button onPress={() => { saveData() }}>
+                <Button onPress={() => { updateData() }}>
                     Submit
             </Button>
             </Card>
@@ -169,5 +172,5 @@ const styles = StyleSheet.create({
 
 });
 
-export default InputScreen
+export default UpdateScreen
 
