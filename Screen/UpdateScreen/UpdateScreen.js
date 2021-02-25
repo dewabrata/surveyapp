@@ -12,13 +12,13 @@ const lstMarital = ["Single", "Married"]
 let camera = null;
 
 const UpdateScreen = ({route,navigation}) => {
-    const {dataID}=route.params;  
-    const [nama, setNama] = useState("")
+    const {dataID,dataName,dataUmur,dataGambar,urlGambar}=route.params;  
+    const [nama, setNama] = useState(dataName)
     const [gender, setGender] = useState(0)
-    const [umur, setUmur] = useState("")
+    const [umur, setUmur] = useState(dataUmur)
     const [marital, setMarital] = useState(0)
     const [gps, setGps] = useState("")
-    const [gambar,setGambar] = useState('https://images.fandango.com/ImageRenderer/0/0/redesign/static/img/default_poster.png/0/images/masterrepository/performer%20images/p844030/ChelseaIslan.jpg')
+    const [gambar,setGambar] = useState(urlGambar)
     
     const renderOption = (title) => (
 
@@ -28,6 +28,7 @@ const UpdateScreen = ({route,navigation}) => {
    useEffect(() =>{
    
     console.log(dataID)
+    console.log(dataGambar)
     Geolocation.getCurrentPosition(info => {
     
     setGps(info.coords.longitude +";"+info.coords.latitude)
@@ -39,27 +40,32 @@ const UpdateScreen = ({route,navigation}) => {
    
    
    const updateImage = () => {
+
    
-    const namefile = ""+new Date();
-   
-    const reference = storage().ref(namefile);
+    const reference = storage().ref(dataGambar);
 
     const pathToFile = gambar;
+    if(urlGambar=== gambar){
+        updateData(urlGambar,dataGambar)        
+    }else{
     // uploads file
     reference.putFile(pathToFile).then(() => {
-         console.log("Uploaded")
-         storage()
-         .ref(namefile)
-         .getDownloadURL().then((downloadData) =>{
+        console.log("Updated")
+
+        storage()
+        .ref(dataGambar)
+        .getDownloadURL().then((downloadData) =>{
             console.log(downloadData)
-           updateData(downloadData)
-         
-         })
-    });
+            updateData(downloadData,dataGambar)
+        })
+
+   });
+}
+
    
    }
    
-   const updateData = (downloadData) => {
+   const updateData = (downloadData,namaGambar) => {
     firestore()
    .collection('Users')
    .doc(dataID)
@@ -70,6 +76,7 @@ const UpdateScreen = ({route,navigation}) => {
      marital : lstMarital[marital.row],
      gps: gps,
      gambar: downloadData,
+     namaGambar: namaGambar,
    })
    .then(() => {
      console.log('User Updated!');

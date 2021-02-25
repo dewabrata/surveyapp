@@ -17,7 +17,8 @@ const InputScreen = () => {
     const [marital, setMarital] = useState(0)
     const [gps, setGps] = useState("")
     const [gambar,setGambar] = useState('https://images.fandango.com/ImageRenderer/0/0/redesign/static/img/default_poster.png/0/images/masterrepository/performer%20images/p844030/ChelseaIslan.jpg')
-    
+    // const [namaGambar,setNamaGambar] = useState()
+
     const renderOption = (title) => (
 
         <SelectItem key={title} title={title} />
@@ -49,14 +50,15 @@ const InputScreen = () => {
          .ref(namefile)
          .getDownloadURL().then((downloadData) =>{
             console.log(downloadData)
-           saveData(downloadData)
+            console.log(namefile)
+            saveData(downloadData,namefile)
          
          })
     });
    
    }
    
-   const saveData = (downloadData) => {
+   const saveData = (downloadData,namaGambar) => {
      firestore()
     .collection('Users')
     .add({
@@ -66,6 +68,7 @@ const InputScreen = () => {
       marital : lstMarital[marital.row],
       gps: gps,
       gambar: downloadData,
+      namaGambar: namaGambar,
     })
     .then(() => {
       console.log('User added!');
