@@ -5,12 +5,14 @@ import { RNCamera } from 'react-native-camera';
 import Geolocation from '@react-native-community/geolocation';
 import { StyleSheet, SafeAreaView, ScrollView, StatusBar } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 const lstGender = ["Male", "Female"]
 const lstMarital = ["Single", "Married"]
 let camera = null;
+
 const UpdateScreen = ({route,navigation}) => {
-    const {dataID}=route.params;
+    const {dataID}=route.params;  
     const [nama, setNama] = useState("")
     const [gender, setGender] = useState(0)
     const [umur, setUmur] = useState("")
@@ -35,28 +37,52 @@ const UpdateScreen = ({route,navigation}) => {
    
    },[])
    
-   const updateData = () => {
-     firestore()
-    .collection('Users')
-    .doc(dataID)
-    .update({
-      name: nama,
-      gender: lstGender[gender.row],
-      umur :umur,
-      marital : lstMarital[marital.row],
-      gps: gps,
-    })
-    .then(() => {
-      console.log('User Updated!');
+   
+   const updateImage = () => {
+   
+    const namefile = ""+new Date();
+   
+    const reference = storage().ref(namefile);
+
+    const pathToFile = gambar;
+    // uploads file
+    reference.putFile(pathToFile).then(() => {
+         console.log("Uploaded")
+         storage()
+         .ref(namefile)
+         .getDownloadURL().then((downloadData) =>{
+            console.log(downloadData)
+           updateData(downloadData)
+         
+         })
     });
-    navigation.goBack();
+   
    }
+   
+   const updateData = (downloadData) => {
+    firestore()
+   .collection('Users')
+   .doc(dataID)
+   .update({
+     name: nama,
+     gender: lstGender[gender.row],
+     umur :umur,
+     marital : lstMarital[marital.row],
+     gps: gps,
+     gambar: downloadData,
+   })
+   .then(() => {
+     console.log('User Updated!');
+   });
+   navigation.goBack();
+  }
 
    const takePicture = async () => {
     console.log("test")
         if (camera) {
           const options = { quality: 0.5, base64: true };
           const data = await camera.takePictureAsync(options);
+          console.log(JSON.stringify(data));
           setGambar(data.uri)
           console.log(data.uri);
         }
@@ -133,7 +159,7 @@ const UpdateScreen = ({route,navigation}) => {
             </Button>
             </Card>
             <Card style={styles.containerPicture}>
-                <Button onPress={() => { updateData() }}>
+                <Button onPress={() => { updateImage() }}>
                     Submit
             </Button>
             </Card>
